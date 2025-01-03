@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetEbpf.Core", "DotnetEbpf.Core\DotnetEbpf.Core.csproj", "{B666BD32-E8D4-4758-9FC8-4CF89ACBD18A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetEbpf.Examples", "DotnetEbpf.Examples\DotnetEbpf.Examples.csproj", "{AD0CE8F0-983F-4890-BC60-0E0FA792BBAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B666BD32-E8D4-4758-9FC8-4CF89ACBD18A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B666BD32-E8D4-4758-9FC8-4CF89ACBD18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B666BD32-E8D4-4758-9FC8-4CF89ACBD18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B666BD32-E8D4-4758-9FC8-4CF89ACBD18A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD0CE8F0-983F-4890-BC60-0E0FA792BBAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD0CE8F0-983F-4890-BC60-0E0FA792BBAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD0CE8F0-983F-4890-BC60-0E0FA792BBAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD0CE8F0-983F-4890-BC60-0E0FA792BBAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

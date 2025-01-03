@@ -1,0 +1,3 @@
+[submodule "dntc"]
+	path = dntc
+	url = git@github.com:KallDrexx/dntc.git
