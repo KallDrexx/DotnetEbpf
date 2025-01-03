@@ -1,0 +1,14 @@
+{
+  "DotNetProjectDirectory": ".",
+  "BuildInDebugMode": false,
+  "AssemblyDirectory": "../artifacts/bin/DotnetEbpf.Examples/release",
+  "AssembliesToLoad": [
+    "DotnetEbpf.Core.dll",
+    "DotnetEbpf.Examples.dll"
+  ],
+  "OutputDirectory": "../../../examples/generated",
+  "SingleGeneratedSourceFileName": "minimal.bpf.c",
+  "MethodsToTranspile": [
+    "System.Int32 DotnetEbpf.Examples.Minimal::HandleTracePoint(DotnetEbpf.Core.CTypes/CVoid&)"
+  ]
+}

@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\dntc\Dntc.Attributes\Dntc.Attributes.csproj" />
+    </ItemGroup>
+
 </Project>
