@@ -10,4 +10,10 @@
       <ProjectReference Include="..\DotnetEbpf.Core\DotnetEbpf.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="..\..\..\examples\Makefile">
+        <Link>Makefile</Link>
+      </Content>
+    </ItemGroup>
+
 </Project>
