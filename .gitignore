@@ -6,3 +6,5 @@
 *.vs
 artifacts/
 generated/
+.output/
+

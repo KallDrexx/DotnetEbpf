@@ -6,7 +6,7 @@
     "DotnetEbpf.Core.dll",
     "DotnetEbpf.Examples.dll"
   ],
-  "OutputDirectory": "../../../examples/generated",
+  "OutputDirectory": "../../../examples/.output",
   "SingleGeneratedSourceFileName": "minimal.bpf.c",
   "MethodsToTranspile": [
     "System.Int32 DotnetEbpf.Examples.Minimal::HandleTracePoint(DotnetEbpf.Core.CTypes/CVoid&)"

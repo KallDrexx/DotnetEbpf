@@ -1,3 +1,9 @@
 [submodule "dntc"]
 	path = dntc
 	url = git@github.com:KallDrexx/dntc.git
+[submodule "libbpf"]
+	path = libbpf
+	url = git@github.com:libbpf/libbpf.git
+[submodule "blazesym"]
+	path = blazesym
+	url = git@github.com:libbpf/blazesym.git
