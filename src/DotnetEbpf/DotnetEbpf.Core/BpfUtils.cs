@@ -16,7 +16,7 @@ public static class BpfUtils
     /// Returns a 64-bit number where the high 32 bits are the bpf tgid and the low 32 bits
     /// are the bpf pid.
     /// </summary>
-    [NativeFunctionCall("bpf_get_current_pid_tgid", "bpf/bpf_helpers.h>")]
+    [NativeFunctionCall("bpf_get_current_pid_tgid", "<bpf/bpf_helpers.h>")]
     public static long GetCurrentPidTgid()
     {
         return 0;

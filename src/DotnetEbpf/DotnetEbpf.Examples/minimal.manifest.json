@@ -1,6 +1,4 @@
 {
-  "DotNetProjectDirectory": ".",
-  "BuildInDebugMode": false,
   "AssemblyDirectory": "../artifacts/bin/DotnetEbpf.Examples/release",
   "AssembliesToLoad": [
     "DotnetEbpf.Core.dll",
