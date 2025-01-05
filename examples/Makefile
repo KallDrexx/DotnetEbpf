@@ -55,7 +55,7 @@ CLANG_BPF_SYS_INCLUDES ?= $(shell $(CLANG) -v -E - </dev/null 2>&1 \
 	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }')
 
 # Build the specified application
-$(APPS): %: $(OUTPUT)/%.bpf.c $(LIBBPF_OBJ) | $(OUTPUT)
+$(APPS): %: $(OUTPUT)/%.bpf.c $(LIBBPF_OBJ) 
 	@echo Test
 
 # Build the DotnetEbpf.Examples project
@@ -64,7 +64,7 @@ $(EXAMPLE_DLL): $(shell find $(EXAMPLES_DIR) $(DNTC_TOOL_DIR) $(CORE_DIR))
 
 # Transpile via a manifest with the same name as the target. It's expected that the manifests
 # will produce a single file output with the name of the target plus ".bpf.c"
-$(OUTPUT)/%.bpf.c: $(EXAMPLE_DLL) $(EXAMPLES_DIR)/%.manifest.json %.c 
+$(OUTPUT)/%.bpf.c: $(EXAMPLE_DLL) $(EXAMPLES_DIR)/%.manifest.json %.c | $(OUTPUT)
 	$(DOTNET) run --project $(DNTC_TOOL_CSPROJ) -- $(word 2, $^)
 
 # Build the BPF code	
