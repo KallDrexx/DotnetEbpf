@@ -7,3 +7,6 @@
 [submodule "blazesym"]
 	path = blazesym
 	url = git@github.com:libbpf/blazesym.git
+[submodule "vmlinux.h"]
+	path = vmlinux.h
+	url = git@github.com:libbpf/vmlinux.h.git

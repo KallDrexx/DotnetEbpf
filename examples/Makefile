@@ -34,14 +34,14 @@ ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/mips.*/mips/' \
 			 | sed 's/riscv64/riscv/' \
 			 | sed 's/loongarch64/loongarch/')
-VMLINUX := ../../vmlinux.h/include/$(ARCH)/vmlinux.h
+VMLINUX := ../vmlinux.h/include/$(ARCH)/vmlinux.h
 LIBBLAZESYM_SRC := $(abspath ../../blazesym/)
 LIBBLAZESYM_INC := $(abspath $(LIBBLAZESYM_SRC)/capi/include)
 LIBBLAZESYM_OBJ := $(abspath $(OUTPUT)/libblazesym_c.a)
 # Use our own libbpf API headers and Linux UAPI headers distributed with
 # libbpf to avoid dependency on system-wide headers, which could be missing or
 # outdated
-INCLUDES := -I$(OUTPUT) -I../../libbpf/include/uapi -I$(dir $(VMLINUX)) -I$(LIBBLAZESYM_INC)
+INCLUDES := -I$(OUTPUT) -I../libbpf/include/uapi -I$(dir $(VMLINUX)) -I$(LIBBLAZESYM_INC)
 
 # Get Clang's default includes on this system. We'll explicitly add these dirs
 # to the includes list when compiling with `-target bpf` because otherwise some
@@ -55,7 +55,7 @@ CLANG_BPF_SYS_INCLUDES ?= $(shell $(CLANG) -v -E - </dev/null 2>&1 \
 	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }')
 
 # Build the specified application
-$(APPS): %: $(OUTPUT)/%.bpf.c $(LIBBPF_OBJ) 
+$(APPS): %: $(OUTPUT)/%.bpf.o $(LIBBPF_OBJ) 
 	@echo Test
 
 # Build the DotnetEbpf.Examples project
@@ -68,7 +68,8 @@ $(OUTPUT)/%.bpf.c: $(EXAMPLE_DLL) $(EXAMPLES_DIR)/%.manifest.json %.c | $(OUTPUT
 	$(DOTNET) run --project $(DNTC_TOOL_CSPROJ) -- $(word 2, $^)
 
 # Build the BPF code	
-$(OUTPUT)/%.bpf.o: $(OUTPUT)/%.bpf.c $(LIBBPF_OBJ) $(VMLINUX) | $(OUTPUT)
+#$(OUTPUT)/%.bpf.o: $(OUTPUT)/%.bpf.c $(LIBBPF_OBJ) $(VMLINUX) | $(OUTPUT)
+.output/minimal.bpf.o: .output/minimal.bpf.c $(LIBBPF_OBJ) $(VMLINUX) | $(OUTPUT) 
 	$(CLANG) -g -O2 -target bpf -D__TARGET_ARCH_$(ARCH)		      \
 			 $(INCLUDES) $(CLANG_BPF_SYS_INCLUDES)		      \
 			 -c $(filter %.c,$^) -o $(patsubst %.bpf.o,%.tmp.bpf.o,$@)
@@ -89,7 +90,7 @@ $(OUTPUT) $(OUTPUT)/libbpf:
 clean:
 	$(DOTNET) clean -c Release $(SRC_ROOT)/*.sln
 	$(DOTNET) clean -c Debug $(SRC_ROOT)/*.sln
-	rm -rf $(OUTPUT)/*
+	rm -rf $(OUTPUT)
 
 # delete failed targets
 .DELETE_ON_ERROR:
