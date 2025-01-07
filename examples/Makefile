@@ -5,6 +5,7 @@
 
 DOTNET ?= dotnet
 OUTPUT := .output
+BPFTOOL := bpftool
 
 # List of different application targets that can be invoked
 APPS = minimal
@@ -55,8 +56,15 @@ CLANG_BPF_SYS_INCLUDES ?= $(shell $(CLANG) -v -E - </dev/null 2>&1 \
 	| sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }')
 
 # Build the specified application
-$(APPS): %: $(OUTPUT)/%.bpf.o $(LIBBPF_OBJ) 
-	@echo Test
+$(APPS): %: $(OUTPUT)/%.o $(LIBBPF_OBJ) 
+	$(CC) $(CFLAGS) $^ $(ALL_LDFLAGS) -lelf -lz -o $(OUTPUT)/$@
+	
+# Build user-space code
+$(patsubst %,$(OUTPUT)/%.o,$(APPS)): %.o: %.skel.h
+
+$(OUTPUT)/%.o: %.c $(wildcard %.h) | $(OUTPUT)
+	$(call msg,CC,$@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $(filter %.c,$^) -o $@
 
 # Build the DotnetEbpf.Examples project
 $(EXAMPLE_DLL): $(shell find $(EXAMPLES_DIR) $(DNTC_TOOL_DIR) $(CORE_DIR)) 
@@ -81,6 +89,11 @@ $(LIBBPF_OBJ): $(wildcard $(LIBBPF_SRC)/*.[ch] $(LIBBPF_SRC)/Makefile) | $(OUTPU
 		    OBJDIR=$(dir $@)/libbpf DESTDIR=$(dir $@) \
 		    INCLUDEDIR= LIBDIR= UAPIDIR=  \
 		    install	
+		   
+# Generate BPF skeleton 
+$(OUTPUT)/%.skel.h: $(OUTPUT)/%.bpf.o | $(OUTPUT) 
+	$(call msg,GEN-SKEL,$@)
+	$(Q)$(BPFTOOL) gen skeleton $< > $@
 
 # Required directory creation
 $(OUTPUT) $(OUTPUT)/libbpf:
