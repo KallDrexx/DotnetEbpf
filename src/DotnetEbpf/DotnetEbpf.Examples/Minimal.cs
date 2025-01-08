@@ -5,6 +5,12 @@ namespace DotnetEbpf.Examples;
 
 public static class Minimal
 {
+    [WithCAttribute(BpfSections.License)]
+    [InitialGlobalValue("\"Dual BSD/GPL\"")]
+    [NonPointerString]
+    public static string? License;
+    
+    [CustomGlobalName("my_pid")]
     public static int MyPid;
 
     /// <summary>
@@ -15,7 +21,7 @@ public static class Minimal
     public static int HandleTracePoint(ref CTypes.CVoid ctx)
     {
         var pid = (int)(BpfUtils.GetCurrentPidTgid() >> 32);
-        if (pid != MyPid)
+        if (pid == MyPid)
         {
             // only activate for the process that opened the bpf application
             BpfUtils.Printk1("BPF triggered from PID %d.\n", pid);

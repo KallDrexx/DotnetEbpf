@@ -8,5 +8,8 @@
   "SingleGeneratedSourceFileName": "minimal.bpf.c",
   "MethodsToTranspile": [
     "System.Int32 DotnetEbpf.Examples.Minimal::HandleTracePoint(DotnetEbpf.Core.CTypes/CVoid&)"
+  ],
+  "GlobalsToTranspile": [
+    "System.String DotnetEbpf.Examples.Minimal::License"
   ]
 }
