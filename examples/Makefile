@@ -57,7 +57,7 @@ CLANG_BPF_SYS_INCLUDES ?= $(shell $(CLANG) -v -E - </dev/null 2>&1 \
 
 # Build the specified application
 $(APPS): %: $(OUTPUT)/%.o $(LIBBPF_OBJ) 
-	$(CC) $(CFLAGS) $^ $(ALL_LDFLAGS) -lelf -lz -o $(OUTPUT)/$@
+	$(CC) $(CFLAGS) $^ $(ALL_LDFLAGS) -lelf -lz -o $@
 	
 # Build user-space code
 $(patsubst %,$(OUTPUT)/%.o,$(APPS)): %.o: %.skel.h
