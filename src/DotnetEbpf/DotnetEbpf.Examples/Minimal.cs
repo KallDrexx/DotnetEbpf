@@ -24,7 +24,7 @@ public static class Minimal
         if (pid == MyPid)
         {
             // only activate for the process that opened the bpf application
-            BpfUtils.Printk1("BPF triggered from PID %d.\n", pid);
+            BpfUtils.Printk("BPF triggered from PID %d.\n", pid);
         }
 
         return 0;

@@ -8,7 +8,7 @@ public static class BpfUtils
     /// Allows for calling `bpf_printk` with a single templated argument
     /// </summary>
     [NativeFunctionCall("bpf_printk", "<linux/bpf.h>")]
-    public static void Printk1(string message, int param1)
+    public static void Printk<T>(string message, T param1)
     {
     }
 
