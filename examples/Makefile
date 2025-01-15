@@ -8,13 +8,14 @@ OUTPUT := .output
 BPFTOOL := bpftool
 
 # List of different application targets that can be invoked
-APPS = minimal
+APPS = minimal uprobe
 
 # Dotnet project directories to check for changes of
 DNTC_TOOL_DIR := ../dntc
 SRC_ROOT = ../src/DotnetEbpf
 EXAMPLES_DIR = $(SRC_ROOT)/DotnetEbpf.Examples
 CORE_DIR = $(SRC_ROOT)/DotnetEbpf.Core
+TRANSPILER_PLUGIN_DIR = $(SRC_ROOT)/DotnetEbpf.Core.TranspilerPlugin
 
 DNTC_TOOL_CSPROJ = $(DNTC_TOOL_DIR)/Dntc.Cli/Dntc.Cli.csproj
 MANIFEST_DIR = $(EXAMPLES_DIR)
@@ -67,7 +68,7 @@ $(OUTPUT)/%.o: %.c $(wildcard %.h) | $(OUTPUT)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $(filter %.c,$^) -o $@
 
 # Build the DotnetEbpf.Examples project
-$(EXAMPLE_DLL): $(shell find $(EXAMPLES_DIR) $(DNTC_TOOL_DIR) $(CORE_DIR)) 
+$(EXAMPLE_DLL): $(shell find $(EXAMPLES_DIR) $(DNTC_TOOL_DIR) $(CORE_DIR) $(TRANSPILER_PLUGIN_DIR))
 	$(DOTNET) build -c Release $(EXAMPLE_CSPROJ)
 
 # Transpile via a manifest with the same name as the target. It's expected that the manifests

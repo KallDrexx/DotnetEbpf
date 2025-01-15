@@ -1,0 +1,19 @@
+{
+  "AssemblyDirectory": "../artifacts/bin/DotnetEbpf.Examples/release",
+  "AssembliesToLoad": [
+    "DotnetEbpf.Core.dll",
+    "DotnetEbpf.Examples.dll"
+  ],
+  "PluginAssembly": "DotnetEbpf.Core.TranspilerPlugin.dll",
+  "OutputDirectory": "../../../examples/.output",
+  "SingleGeneratedSourceFileName": "uprobe.bpf.c",
+  "MethodsToTranspile": [
+    "System.Int32 DotnetEbpf.Examples.Uprobe::UProbeAdd(System.Int32,System.Int32)",
+    "System.Int32 DotnetEbpf.Examples.Uprobe::UProbeSub(System.Int32,System.Int32)",
+    "System.Int32 DotnetEbpf.Examples.Uprobe::URetProbeAdd(System.Int32)",
+    "System.Int32 DotnetEbpf.Examples.Uprobe::URetProbeSub(System.Int32)"
+  ],
+  "GlobalsToTranspile": [
+    "System.String DotnetEbpf.Examples.Uprobe::License"
+  ]
+}
