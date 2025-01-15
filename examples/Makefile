@@ -8,7 +8,7 @@ OUTPUT := .output
 BPFTOOL := bpftool
 
 # List of different application targets that can be invoked
-APPS = minimal
+APPS = minimal uprobe
 
 # Dotnet project directories to check for changes of
 DNTC_TOOL_DIR := ../dntc

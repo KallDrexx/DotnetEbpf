@@ -13,11 +13,25 @@ public static class BpfUtils
     }
 
     /// <summary>
+    /// Allows for calling `bpf_printk` with two templated arguments
+    /// </summary>
+    [NativeFunctionCall("bpf_printk", "<linux/bpf.h>")]
+    public static void Printk<T, U>(string message, T param1, U param2)
+    {
+    }
+
+    /// <summary>
     /// Returns a 64-bit number where the high 32 bits are the bpf tgid and the low 32 bits
     /// are the bpf pid.
     /// </summary>
     [NativeFunctionCall("bpf_get_current_pid_tgid", "<linux/bpf.h>,<bpf/bpf_helpers.h>")]
     public static long GetCurrentPidTgid()
+    {
+        return 0;
+    }
+
+    [NativeFunctionCall("bpf_get_smp_processor_id", "<linux/bpf.h>,<bpf/bpf_helpers.h>")]
+    public static UInt32 GetSmpProcessorId()
     {
         return 0;
     }

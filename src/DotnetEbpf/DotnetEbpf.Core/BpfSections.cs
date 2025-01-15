@@ -7,4 +7,6 @@ public static class BpfSections
 {
     public const string License = "SEC(\"license\")";
     public const string SysEnterWrite = "SEC(\"tp/syscalls/sys_enter_write\")";
+    public const string Uprobe = "SEC(\"uprobe\")";
+    public const string URetProbe = "SEC(\"uretprobe\")";
 }
