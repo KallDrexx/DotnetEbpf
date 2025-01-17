@@ -4,6 +4,7 @@
     "DotnetEbpf.Core.dll",
     "DotnetEbpf.Examples.dll"
   ],
+  "PluginAssembly": "DotnetEbpf.Core.TranspilerPlugin.dll",
   "OutputDirectory": "../../../examples/.output",
   "SingleGeneratedSourceFileName": "minimal.bpf.c",
   "MethodsToTranspile": [

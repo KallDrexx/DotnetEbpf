@@ -1,13 +1,12 @@
 using Dntc.Attributes;
 using DotnetEbpf.Core;
+using DotnetEbpf.Core.TranspilerPlugin;
 
 namespace DotnetEbpf.Examples;
 
 public static class Minimal
 {
-    [WithCAttribute(BpfSections.License)]
-    [InitialGlobalValue("\"Dual BSD/GPL\"")]
-    [NonPointerString]
+    [BpfLicense(BpfLicenseAttribute.DualBsdGpl)]
     public static string? License;
     
     [CustomGlobalName("my_pid")]
@@ -17,7 +16,7 @@ public static class Minimal
     /// Prints the process that triggered the BPF trace point
     /// </summary>
     [CustomFunctionName("handle_tp")]
-    [WithCAttribute(BpfSections.SysEnterWrite)]
+    [BpfSection("tp/syscalls/sys_enter_write")]
     public static int HandleTracePoint(ref CTypes.CVoid ctx)
     {
         var pid = (int)(BpfUtils.GetCurrentPidTgid() >> 32);

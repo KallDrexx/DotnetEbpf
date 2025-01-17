@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DotnetEbpf.Core\DotnetEbpf.Core.csproj" />
+      <ProjectReference Include="..\DotnetEbpf.Core.TranspilerPlugin\DotnetEbpf.Core.TranspilerPlugin.csproj" />
     </ItemGroup>
 
     <ItemGroup>
