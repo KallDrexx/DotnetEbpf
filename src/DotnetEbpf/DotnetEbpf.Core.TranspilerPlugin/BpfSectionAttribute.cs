@@ -11,7 +11,7 @@ namespace DotnetEbpf.Core.TranspilerPlugin;
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Field)]
 public class BpfSectionAttribute(string section) : Attribute
 {
-    public class Mutator : IMethodConversionMutator, IGlobalConversionMutator
+    public class Mutator : IMethodConversionMutator, IFieldConversionMutator
     {
         public void Mutate(MethodConversionInfo conversionInfo, DotNetDefinedMethod method)
         {
@@ -29,7 +29,7 @@ public class BpfSectionAttribute(string section) : Attribute
             conversionInfo.AttributeText = $"SEC(\"{name}\")";
         }
 
-        public void Mutate(GlobalConversionInfo conversionInfo, DotNetDefinedGlobal global)
+        public void Mutate(FieldConversionInfo conversionInfo, DotNetDefinedField global)
         {
             var attribute = global.Definition
                 .CustomAttributes

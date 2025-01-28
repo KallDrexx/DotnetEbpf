@@ -11,7 +11,7 @@ public class BpfLicenseAttribute(string license) : Attribute
 {
     public const string DualBsdGpl = "Dual BSD/GPL";
 
-    public class Mutator : IGlobalConversionMutator
+    public class Mutator : IFieldConversionMutator
     {
         private readonly ConversionCatalog _conversionCatalog;
 
@@ -20,9 +20,9 @@ public class BpfLicenseAttribute(string license) : Attribute
             _conversionCatalog = conversionCatalog;
         }
 
-        public void Mutate(GlobalConversionInfo conversionInfo, DotNetDefinedGlobal global)
+        public void Mutate(FieldConversionInfo conversionInfo, DotNetDefinedField field)
         {
-            var attribute = global.Definition
+            var attribute = field.Definition
                 .CustomAttributes
                 .FirstOrDefault(x => x.AttributeType.FullName == typeof(BpfLicenseAttribute).FullName);
 
@@ -30,12 +30,14 @@ public class BpfLicenseAttribute(string license) : Attribute
             {
                 return;
             }
-
-            conversionInfo.IsNonPointerString = true;
-            conversionInfo.AttributeText = "SEC(\"license\")";
-
+            
             var license = attribute.ConstructorArguments[0].Value.ToString();
-            var returnType = _conversionCatalog.Find(new IlTypeName(typeof(string).FullName!));
+            conversionInfo.AttributeText = "SEC(\"license\")";
+            conversionInfo.StaticItemSize = license!.Length + 1; // +1 for null terminator
+
+            var returnType = _conversionCatalog.Find(new IlTypeName(typeof(char).FullName!));
+            conversionInfo.FieldTypeConversionInfo = returnType;
+            
             var expression = new LiteralValueExpression($"\"{license}\"", returnType);
             conversionInfo.InitialValue = expression;
         }

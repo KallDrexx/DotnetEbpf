@@ -9,7 +9,7 @@ public static class Minimal
     [BpfLicense(BpfLicenseAttribute.DualBsdGpl)]
     public static string? License;
     
-    [CustomGlobalName("my_pid")]
+    [CustomFieldName("my_pid")]
     public static int MyPid;
 
     /// <summary>
