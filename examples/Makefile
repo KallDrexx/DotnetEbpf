@@ -76,8 +76,7 @@ $(OUTPUT)/%.bpf.c: $(EXAMPLE_DLL) $(EXAMPLES_DIR)/%.manifest.json %.c | $(OUTPUT
 	$(DOTNET) run --project $(DNTC_TOOL_CSPROJ) -- $(word 2, $^)
 
 # Build the BPF code	
-#$(OUTPUT)/%.bpf.o: $(OUTPUT)/%.bpf.c $(LIBBPF_OBJ) $(VMLINUX) | $(OUTPUT)
-.output/minimal.bpf.o: .output/minimal.bpf.c $(LIBBPF_OBJ) $(VMLINUX) | $(OUTPUT) 
+$(OUTPUT)/%.bpf.o: $(OUTPUT)/%.bpf.c $(LIBBPF_OBJ) $(VMLINUX) | $(OUTPUT)
 	$(CLANG) -g -O2 -target bpf -D__TARGET_ARCH_$(ARCH)		      \
 			 $(INCLUDES) $(CLANG_BPF_SYS_INCLUDES)		      \
 			 -c $(filter %.c,$^) -o $(patsubst %.bpf.o,%.tmp.bpf.o,$@)
