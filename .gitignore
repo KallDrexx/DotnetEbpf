@@ -7,7 +7,7 @@
 artifacts/
 generated/
 .output/
-/examples/
-!/examples/*.c
-!/examples/*.h
+examples/*
+!examples/*.c
+!examples/*.h
 
