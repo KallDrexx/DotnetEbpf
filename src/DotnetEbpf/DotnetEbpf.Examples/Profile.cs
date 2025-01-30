@@ -1,5 +1,5 @@
 using Dntc.Attributes;
-using DotnetEbpf.Core.TranspilerPlugin;
+using DotnetEbpf.Core;
 
 namespace DotnetEbpf.Examples;
 
