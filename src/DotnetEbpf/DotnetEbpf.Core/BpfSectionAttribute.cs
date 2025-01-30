@@ -3,7 +3,7 @@ using Dntc.Common.Conversion;
 using Dntc.Common.Conversion.Mutators;
 using Dntc.Common.Definitions;
 
-namespace DotnetEbpf.Core.TranspilerPlugin;
+namespace DotnetEbpf.Core;
 
 /// <summary>
 /// Specifies that the method it is attached to should use the

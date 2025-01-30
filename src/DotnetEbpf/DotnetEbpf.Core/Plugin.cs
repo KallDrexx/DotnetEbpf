@@ -1,8 +1,7 @@
-using System.Reflection.Metadata;
 using Dntc.Common;
 using Dntc.Common.Definitions;
 
-namespace DotnetEbpf.Core.TranspilerPlugin;
+namespace DotnetEbpf.Core;
 
 public class Plugin : ITranspilerPlugin
 {

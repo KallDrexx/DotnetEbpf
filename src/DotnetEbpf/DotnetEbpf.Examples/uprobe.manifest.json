@@ -4,7 +4,7 @@
     "DotnetEbpf.Core.dll",
     "DotnetEbpf.Examples.dll"
   ],
-  "PluginAssembly": "DotnetEbpf.Core.TranspilerPlugin.dll",
+  "PluginAssembly": "DotnetEbpf.Core.dll",
   "OutputDirectory": "../../../examples/.output",
   "SingleGeneratedSourceFileName": "uprobe.bpf.c",
   "MethodsToTranspile": [

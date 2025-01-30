@@ -4,7 +4,7 @@ using Dntc.Common.Conversion.Mutators;
 using Dntc.Common.Definitions;
 using Dntc.Common.Syntax.Expressions;
 
-namespace DotnetEbpf.Core.TranspilerPlugin;
+namespace DotnetEbpf.Core;
 
 [AttributeUsage(AttributeTargets.Field)]
 public class BpfLicenseAttribute(string license) : Attribute
