@@ -1,5 +1,6 @@
 using Dntc.Attributes;
 using DotnetEbpf.Core;
+using DotnetEbpf.Core.Maps;
 
 namespace DotnetEbpf.Examples;
 
@@ -38,4 +39,8 @@ public static class Profile
         [StaticallySizedArray(MaxStackDepth)]
         public ulong[] UStack;
     }
+
+    [MapType(MapType.RingBuffer)]
+    [MaxEntries(256 * 1024)]
+    public static BpfMap Events;
 }

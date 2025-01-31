@@ -1,5 +1,6 @@
 using Dntc.Common;
 using Dntc.Common.Definitions;
+using DotnetEbpf.Core.Maps;
 
 namespace DotnetEbpf.Core;
 
@@ -10,9 +11,11 @@ public class Plugin : ITranspilerPlugin
     public void Customize(TranspilerContext context)
     {
         AddNativeTypes(context);
+        context.Definers.Add(new BpfMap.FieldDefiner(context.DefinitionCatalog));
         context.ConversionInfoCreator.AddMethodMutator(new BpfSectionAttribute.Mutator());
         context.ConversionInfoCreator.AddFieldMutator(new BpfSectionAttribute.Mutator());
         context.ConversionInfoCreator.AddFieldMutator(new BpfLicenseAttribute.Mutator(context.ConversionCatalog));
+        context.ConversionInfoCreator.AddFieldMutator(new BpfMap.FieldConversionMutator());
     }
 
     private static void AddNativeTypes(TranspilerContext context)

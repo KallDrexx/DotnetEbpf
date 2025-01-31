@@ -1,0 +1,16 @@
+{
+  "AssemblyDirectory": "../artifacts/bin/DotnetEbpf.Examples/release",
+  "AssembliesToLoad": [
+    "DotnetEbpf.Core.dll",
+    "DotnetEbpf.Examples.dll"
+  ],
+  "PluginAssembly": "DotnetEbpf.Core.dll",
+  "OutputDirectory": "../../../examples/.output",
+  "SingleGeneratedSourceFileName": "profile.bpf.c",
+  "MethodsToTranspile": [
+  ],
+  "GlobalsToTranspile": [
+    "System.String DotnetEbpf.Examples.Profile::License",
+    "DotnetEbpf.Core.Maps.BpfMap DotnetEbpf.Examples.Profile::Events"
+  ]
+}
