@@ -2,6 +2,7 @@ using Dntc.Common;
 using Dntc.Common.Conversion;
 using Dntc.Common.Conversion.Mutators;
 using Dntc.Common.Definitions;
+using Mono.Cecil;
 
 namespace DotnetEbpf.Core;
 
@@ -32,9 +33,9 @@ public class BpfSectionAttribute(string section) : Attribute
 
         public IReadOnlySet<IlTypeName> RequiredTypes => new HashSet<IlTypeName>();
 
-        public void Mutate(FieldConversionInfo conversionInfo, DotNetDefinedField global)
+        public void Mutate(FieldConversionInfo conversionInfo, FieldDefinition field)
         {
-            var attribute = global.Definition
+            var attribute = field
                 .CustomAttributes
                 .FirstOrDefault(x => x.AttributeType.FullName == typeof(BpfSectionAttribute).FullName);
 

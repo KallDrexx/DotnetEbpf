@@ -3,6 +3,7 @@ using Dntc.Common.Conversion;
 using Dntc.Common.Conversion.Mutators;
 using Dntc.Common.Definitions;
 using Dntc.Common.Syntax.Expressions;
+using Mono.Cecil;
 
 namespace DotnetEbpf.Core;
 
@@ -24,9 +25,9 @@ public class BpfLicenseAttribute(string license) : Attribute
             new IlTypeName(typeof(char).FullName!),
         ]);
 
-        public void Mutate(FieldConversionInfo conversionInfo, DotNetDefinedField field)
+        public void Mutate(FieldConversionInfo conversionInfo, FieldDefinition field)
         {
-            var attribute = field.Definition
+            var attribute = field
                 .CustomAttributes
                 .FirstOrDefault(x => x.AttributeType.FullName == typeof(BpfLicenseAttribute).FullName);
 

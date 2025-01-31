@@ -11,8 +11,8 @@ public class Plugin : ITranspilerPlugin
     {
         AddNativeTypes(context);
         context.ConversionInfoCreator.AddMethodMutator(new BpfSectionAttribute.Mutator());
-        context.ConversionInfoCreator.AddGlobalMutator(new BpfSectionAttribute.Mutator());
-        context.ConversionInfoCreator.AddGlobalMutator(new BpfLicenseAttribute.Mutator(context.ConversionCatalog));
+        context.ConversionInfoCreator.AddFieldMutator(new BpfSectionAttribute.Mutator());
+        context.ConversionInfoCreator.AddFieldMutator(new BpfLicenseAttribute.Mutator(context.ConversionCatalog));
     }
 
     private static void AddNativeTypes(TranspilerContext context)
