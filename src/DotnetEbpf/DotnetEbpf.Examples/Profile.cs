@@ -13,7 +13,7 @@ public static class Profile
     public static string? License;
 
     [NativeType("stacktrace_event", "../profile.h")]
-    public struct StacktraceEvent
+    public struct StackTraceEvent
     {
         [CustomFieldName("pid")]
         public uint Pid;
@@ -45,8 +45,13 @@ public static class Profile
     public static BpfMap Events;
 
     [BpfSection("perf_event")]
-    public static int RunProfile(ref CTypes.CVoid context)
+    public static unsafe int RunProfile(ref CTypes.CVoid context)
     {
+        var pid = BpfUtils.GetCurrentPidTgid() >> 32;
+        var cpuId = BpfUtils.GetSmpProcessorId();
+
+        var profileEvent = BpfRingBuffer.Reserve<StackTraceEvent, BpfMap>(ref Events, 0, 0);
+        
         return 0;
     }
 }

@@ -28,6 +28,12 @@ public class Plugin : ITranspilerPlugin
                 []),
             
             new NativeDefinedType(
+                new IlTypeName(typeof(uint).FullName!),
+                new HeaderName("vmlinux.h"),
+                new CTypeName("__u32"),
+                []),
+            
+            new NativeDefinedType(
                 new IlTypeName(typeof(long).FullName!),
                 new HeaderName("vmlinux.h"),
                 new CTypeName("__s64"),
