@@ -47,7 +47,7 @@ public class BpfMapCustomDefinedType : CustomDefinedType
             null,
             new CTypeName(Utils.MakeValidCName(typeId.Value)),
             [],
-            [new HeaderName("vmlinux.h")]);
+            [new HeaderName("vmlinux.h"), new HeaderName("<bpf/bpf_helpers.h>")]);
         
         mapType.AssignTypeAttribute(field);
         mapType.AssignMaxEntriesAttribute(field);
@@ -63,12 +63,12 @@ public class BpfMapCustomDefinedType : CustomDefinedType
 
         if (_mapType != null)
         {
-            content.AppendLine($"\t__uint(type, {_mapType.Value.ToAttributeString()}");
+            content.AppendLine($"\t__uint(type, {_mapType.Value.ToAttributeString()});");
         }
 
         if (_maxEntries != null)
         {
-            content.AppendLine($"\t__uint(max_entries, {_maxEntries.Value}");
+            content.AppendLine($"\t__uint(max_entries, {_maxEntries.Value});");
         }
 
         content.AppendLine($"}} {NativeName};");

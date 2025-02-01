@@ -8,7 +8,7 @@ OUTPUT := .output
 BPFTOOL := bpftool
 
 # List of different application targets that can be invoked
-APPS = minimal uprobe
+APPS = minimal uprobe profile
 
 # Dotnet project directories to check for changes of
 DNTC_TOOL_DIR := ../dntc
@@ -37,7 +37,7 @@ ARCH ?= $(shell uname -m | sed 's/x86_64/x86/' \
 			 | sed 's/riscv64/riscv/' \
 			 | sed 's/loongarch64/loongarch/')
 VMLINUX := ../vmlinux.h/include/$(ARCH)/vmlinux.h
-LIBBLAZESYM_SRC := $(abspath ../../blazesym/)
+LIBBLAZESYM_SRC := $(abspath ../blazesym/)
 LIBBLAZESYM_INC := $(abspath $(LIBBLAZESYM_SRC)/capi/include)
 LIBBLAZESYM_OBJ := $(abspath $(OUTPUT)/libblazesym_c.a)
 # Use our own libbpf API headers and Linux UAPI headers distributed with

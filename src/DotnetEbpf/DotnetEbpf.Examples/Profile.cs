@@ -43,4 +43,10 @@ public static class Profile
     [MapType(MapType.RingBuffer)]
     [MaxEntries(256 * 1024)]
     public static BpfMap Events;
+
+    [BpfSection("perf_event")]
+    public static int RunProfile(ref CTypes.CVoid context)
+    {
+        return 0;
+    }
 }

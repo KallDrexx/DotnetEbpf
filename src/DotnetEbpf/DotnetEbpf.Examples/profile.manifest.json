@@ -8,6 +8,7 @@
   "OutputDirectory": "../../../examples/.output",
   "SingleGeneratedSourceFileName": "profile.bpf.c",
   "MethodsToTranspile": [
+    "System.Int32 DotnetEbpf.Examples.Profile::RunProfile(DotnetEbpf.Core.CTypes/CVoid&)"
   ],
   "GlobalsToTranspile": [
     "System.String DotnetEbpf.Examples.Profile::License",
