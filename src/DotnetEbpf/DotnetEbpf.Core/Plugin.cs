@@ -62,11 +62,29 @@ public class Plugin : ITranspilerPlugin
                 null,
                 new CTypeName("__s8"),
                 []),
+
+            new NativeDefinedType(
+                new IlTypeName(typeof(byte).FullName!),
+                null,
+                new CTypeName("__u8"),
+                []),
                 
             new NativeDefinedType(
                 new IlTypeName(typeof(bool).FullName!),
                 null,
                 new CTypeName("bool"),
+                []),
+
+            new NativeDefinedType(
+                new IlTypeName(typeof(ulong).FullName!),
+                null,
+                new CTypeName("__u64"),
+                []),
+
+            new NativeDefinedType(
+                new IlTypeName(typeof(Type).FullName!),
+                null,
+                new CTypeName("<invalid>"), // just needs to exist for typeof() support
                 []),
         ]);
     }

@@ -23,7 +23,7 @@ public static class Profile
         
         [CustomFieldName("comm")]
         [StaticallySizedArray(TaskCommLen)]
-        public char[] Comm;
+        public byte[] Comm;
         
         [CustomFieldName("kstack_sz")]
         public int KStackSize;
@@ -47,11 +47,37 @@ public static class Profile
     [BpfSection("perf_event")]
     public static unsafe int RunProfile(ref CTypes.CVoid context)
     {
-        var pid = BpfUtils.GetCurrentPidTgid() >> 32;
+        var pid = (uint)(BpfUtils.GetCurrentPidTgid() >> 32);
         var cpuId = BpfUtils.GetSmpProcessorId();
 
-        var profileEvent = BpfRingBuffer.Reserve<StackTraceEvent, BpfMap>(ref Events, 0, 0);
-        
+        var profileEvent = BpfRingBuffer.Reserve<StackTraceEvent, BpfMap>(
+            ref Events,
+            CUtils.SizeOf(typeof(StackTraceEvent)),
+            0);
+
+        if (profileEvent == null)
+        {
+            return 1;
+        }
+
+        profileEvent->Pid = pid;
+        profileEvent->CpuId = cpuId;
+
+        var code = BpfUtils.GetCurrentComm(ref profileEvent->Comm, TaskCommLen);
+        if (code != 0)
+        {
+            profileEvent->Comm[0] = 0;
+        }
+
+        profileEvent->KStackSize = (int)BpfUtils.GetStack(ref context, ref profileEvent->KStack, MaxStackDepth, 0);
+        profileEvent->UStackSize = (int)BpfUtils.GetStack(
+            ref context,
+            ref profileEvent->UStack,
+            MaxStackDepth,
+            (int)BpfFlags.UserStack);
+
+        BpfRingBuffer.Submit(profileEvent, 0);
+
         return 0;
     }
 }
