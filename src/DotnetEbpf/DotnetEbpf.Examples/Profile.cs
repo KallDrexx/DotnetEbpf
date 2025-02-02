@@ -12,7 +12,7 @@ public static class Profile
     [BpfLicense(BpfLicenseAttribute.DualBsdGpl)]
     public static string? License;
 
-    [NativeType("stacktrace_event", "../profile.h")]
+    [NativeType("struct stacktrace_event", "../profile.h")]
     public struct StackTraceEvent
     {
         [CustomFieldName("pid")]

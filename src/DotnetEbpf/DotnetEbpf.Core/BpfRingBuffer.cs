@@ -6,7 +6,7 @@ namespace DotnetEbpf.Core;
 #pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
 public static class BpfRingBuffer
 {
-    [NativeFunctionCall("bpf_ringbuf_return", "<bpf/bpf_helpers.h>")]
+    [NativeFunctionCall("bpf_ringbuf_reserve", "<bpf/bpf_helpers.h>")]
     public static unsafe TItemType* Reserve<TItemType, TMapType>(ref TMapType map, int size, uint flags)
     {
         return (TItemType*)Marshal.AllocHGlobal(sizeof(TItemType));
