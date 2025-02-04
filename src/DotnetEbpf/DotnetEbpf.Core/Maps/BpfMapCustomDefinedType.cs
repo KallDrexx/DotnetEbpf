@@ -44,7 +44,7 @@ public class BpfMapCustomDefinedType : CustomDefinedType
         mapType = new BpfMapCustomDefinedType(
             typeId,
             Utils.GetHeaderName(fieldNamespace),
-            null,
+            Utils.GetSourceFileName(fieldNamespace),
             new CTypeName(Utils.MakeValidCName(typeId.Value)),
             [],
             [new HeaderName("vmlinux.h"), new HeaderName("<bpf/bpf_helpers.h>")]);

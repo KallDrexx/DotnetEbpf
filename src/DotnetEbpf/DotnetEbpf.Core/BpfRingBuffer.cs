@@ -12,7 +12,7 @@ public static class BpfRingBuffer
         return (TItemType*)Marshal.AllocHGlobal(sizeof(TItemType));
     }
 
-    [NativeFunctionCall("bfp_ringbuf_submit", "<bpf/bpf_helpers.h>")]
+    [NativeFunctionCall("bpf_ringbuf_submit", "<bpf/bpf_helpers.h>")]
     public static unsafe void Submit<T>(T* data, uint flags)
     {
 
