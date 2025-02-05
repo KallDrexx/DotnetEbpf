@@ -1,3 +1,4 @@
+using Dntc.Attributes;
 using Dntc.Common;
 using Dntc.Common.Conversion;
 using Dntc.Common.Conversion.Mutators;
@@ -31,6 +32,15 @@ public struct BpfMap
             {
                 return null;
             }
+
+            var fieldName = fieldDefinition.Name;
+            var customNameAttribute = fieldDefinition.CustomAttributes
+                .SingleOrDefault(x => x.AttributeType.FullName == typeof(CustomFieldNameAttribute).FullName);
+
+            if (customNameAttribute != null)
+            {
+                fieldName = customNameAttribute.ConstructorArguments[0].Value.ToString()!;
+            }
             
             _definitionCatalog.Add([fieldType]);
 
@@ -38,7 +48,7 @@ public struct BpfMap
                 fieldDefinition,
                 fieldType.HeaderName,
                 fieldType.SourceFileName,
-                new CFieldName(Utils.MakeValidCName(fieldDefinition.Name)),
+                new CFieldName(Utils.MakeValidCName(fieldName)),
                 new IlFieldId(fieldDefinition.FullName),
                 fieldType,
                 true,

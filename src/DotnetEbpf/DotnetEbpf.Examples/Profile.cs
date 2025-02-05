@@ -22,7 +22,7 @@ public static class Profile
         public uint CpuId;
         
         [CustomFieldName("comm")]
-        [StaticallySizedArray(TaskCommLen)]
+        [BpfArray(TaskCommLen)]
         public byte[] Comm;
         
         [CustomFieldName("kstack_sz")]
@@ -32,16 +32,17 @@ public static class Profile
         public int UStackSize;
         
         [CustomFieldName("kstack")]
-        [StaticallySizedArray(MaxStackDepth)]
+        [BpfArray(MaxStackDepth)]
         public ulong[] KStack;
         
         [CustomFieldName("ustack")]
-        [StaticallySizedArray(MaxStackDepth)]
+        [BpfArray(MaxStackDepth)]
         public ulong[] UStack;
     }
 
     [MapType(MapType.RingBuffer)]
     [MaxEntries(256 * 1024)]
+    [CustomFieldName("events")]
     public static BpfMap Events;
 
     [BpfSection("perf_event")]
