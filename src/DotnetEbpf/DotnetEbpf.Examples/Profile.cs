@@ -46,6 +46,7 @@ public static class Profile
     public static BpfMap Events;
 
     [BpfSection("perf_event")]
+    [CustomFunctionName("profile")]
     public static unsafe int RunProfile(ref CTypes.CVoid context)
     {
         var pid = (uint)(BpfUtils.GetCurrentPidTgid() >> 32);

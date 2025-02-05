@@ -5,17 +5,24 @@
 
 DOTNET ?= dotnet
 OUTPUT := .output
-BPFTOOL := bpftool
 
-# List of different application targets that can be invoked
-APPS = minimal uprobe profile
+BPFTOOL_OUTPUT ?= $(abspath $(OUTPUT)/bpftool)
+BPFTOOL ?= $(BPFTOOL_OUTPUT)/bootstrap/bpftool
+BPFTOOL_SRC := $(abspath ../bpftool/src)
+
+CARGO ?= $(shell which cargo)
+
+# List of different application targets that can be invoked.
+APPS = minimal uprobe
+
+BZS_APPS := profile # Apps requiring blazesym
+APPS += $(BZS_APPS)
 
 # Dotnet project directories to check for changes of
 DNTC_TOOL_DIR := ../dntc
 SRC_ROOT = ../src/DotnetEbpf
 EXAMPLES_DIR = $(SRC_ROOT)/DotnetEbpf.Examples
 CORE_DIR = $(SRC_ROOT)/DotnetEbpf.Core
-TRANSPILER_PLUGIN_DIR = $(SRC_ROOT)/DotnetEbpf.Core.TranspilerPlugin
 
 DNTC_TOOL_CSPROJ = $(DNTC_TOOL_DIR)/Dntc.Cli/Dntc.Cli.csproj
 MANIFEST_DIR = $(EXAMPLES_DIR)
@@ -44,6 +51,11 @@ LIBBLAZESYM_OBJ := $(abspath $(OUTPUT)/libblazesym_c.a)
 # libbpf to avoid dependency on system-wide headers, which could be missing or
 # outdated
 INCLUDES := -I$(OUTPUT) -I../libbpf/include/uapi -I$(dir $(VMLINUX)) -I$(LIBBLAZESYM_INC)
+CFLAGS := -g -Wall
+ALL_LDFLAGS := $(LDFLAGS) $(EXTRA_LDFLAGS)
+
+# Required by libblazesym
+ALL_LDFLAGS += -lrt -ldl -lpthread -lm
 
 # Get Clang's default includes on this system. We'll explicitly add these dirs
 # to the includes list when compiling with `-target bpf` because otherwise some
@@ -67,8 +79,12 @@ $(OUTPUT)/%.o: %.c $(wildcard %.h) | $(OUTPUT)
 	$(call msg,CC,$@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $(filter %.c,$^) -o $@
 
+$(patsubst %,$(OUTPUT)/%.o,$(BZS_APPS)): $(LIBBLAZESYM_OBJ)
+
+$(BZS_APPS): $(LIBBLAZESYM_OBJ)
+
 # Build the DotnetEbpf.Examples project
-$(EXAMPLE_DLL): $(shell find $(EXAMPLES_DIR) $(DNTC_TOOL_DIR) $(CORE_DIR) $(TRANSPILER_PLUGIN_DIR))
+$(EXAMPLE_DLL): $(shell find $(EXAMPLES_DIR) $(DNTC_TOOL_DIR) $(CORE_DIR))
 	$(DOTNET) build -c Release $(EXAMPLE_CSPROJ)
 
 # Transpile via a manifest with the same name as the target. It's expected that the manifests
@@ -77,7 +93,7 @@ $(OUTPUT)/%.bpf.c: $(EXAMPLE_DLL) $(EXAMPLES_DIR)/%.manifest.json %.c | $(OUTPUT
 	$(DOTNET) run --project $(DNTC_TOOL_CSPROJ) -- $(word 2, $^)
 
 # Build the BPF code	
-$(OUTPUT)/%.bpf.o: $(OUTPUT)/%.bpf.c $(LIBBPF_OBJ) $(VMLINUX) | $(OUTPUT)
+$(OUTPUT)/%.bpf.o: $(OUTPUT)/%.bpf.c $(LIBBPF_OBJ) $(VMLINUX) | $(OUTPUT) $(BPFTOOL)
 	$(CLANG) -g -O2 -target bpf -D__TARGET_ARCH_$(ARCH)		      \
 			 $(INCLUDES) $(CLANG_BPF_SYS_INCLUDES)		      \
 			 -c $(filter %.c,$^) -o $(patsubst %.bpf.o,%.tmp.bpf.o,$@)
@@ -95,9 +111,22 @@ $(OUTPUT)/%.skel.h: $(OUTPUT)/%.bpf.o | $(OUTPUT)
 	$(call msg,GEN-SKEL,$@)
 	$(Q)$(BPFTOOL) gen skeleton $< > $@
 
+# Build bpftool
+$(BPFTOOL): | $(BPFTOOL_OUTPUT)
+	$(call msg,BPFTOOL,$@)
+	$(Q)$(MAKE) ARCH= CROSS_COMPILE= OUTPUT=$(BPFTOOL_OUTPUT)/ -C $(BPFTOOL_SRC) bootstrap
+
+
+$(LIBBLAZESYM_SRC)/target/release/libblazesym_c.a::
+	$(Q)cd $(LIBBLAZESYM_SRC) && $(CARGO) build --package=blazesym-c --release
+
+$(LIBBLAZESYM_OBJ): $(LIBBLAZESYM_SRC)/target/release/libblazesym_c.a | $(OUTPUT)
+	$(call msg,LIB, $@)
+	$(Q)cp $(LIBBLAZESYM_SRC)/target/release/libblazesym_c.a $@
+
 # Required directory creation
-$(OUTPUT) $(OUTPUT)/libbpf:
-	mkdir -p $(OUTPUT)
+$(OUTPUT) $(OUTPUT)/libbpf $(BPFTOOL_OUTPUT):
+	mkdir -p $@
 	
 .phony: clean
 clean:
